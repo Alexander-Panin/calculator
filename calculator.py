@@ -1,8 +1,8 @@
 from operator import add, mul, div, sub, pow
 
 # expr := number | unary, number | number, binary, {expr} | '(', {expr}, ')'
-# binary := "+" | "-"
-# unary := "+" | "*" | "-" | "/" | "^"
+# unary := "+" | "-"
+# binary := "+" | "*" | "-" | "/" | "^"
 # number := digit, {digit}
 # digit := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
@@ -46,7 +46,7 @@ def is_bracket(s, ch):
     return (True, ch, s[1:]) if ch == s[0] else (False, None, s)
 
 def is_unary_operator(s):
-    d = {'+': add, '-': div}
+    d = {'+': add, '-': sub}
     return _is_include(s, '+-', lambda x: d[x])
 
 def is_binary_operator(s):
@@ -75,8 +75,10 @@ s2 = '44444/5/6/7/8+1'
 s3 = '7*(3*(5+1))'
 s4 = '1+23+(-5-6-7)'
 s5 = '1+23^(2+2*2)'
+
 for s in ['0', '1', '(2)', '+3', '-4', '1+2', '2*3', s0, s1, s2, s3, s4, s5]:
     print s, '=', expr(s), ';', eval(s.replace('^', '**'))
+    assert(expr(s) == eval(s.replace('^', '**')))
 
 for s in ['1+', '*2', '((1+1)', '(2))', '++1', '2///3', '123something']:
     try:
